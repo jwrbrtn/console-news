@@ -5,7 +5,7 @@
 require_once __DIR__ . '/vendor/autoload.php'; 
 
 use Symfony\Component\Console\Application; 
-use Console\TimeCommand;
+use Console\NewsCommand;
 
 /**
 * Author: Chidume Nnamdi <kurtwanger40@gmail.com>
@@ -13,6 +13,6 @@ use Console\TimeCommand;
 
 $app = new Application('Console App', 'v1.0.0');
 
-$app -> add(new TimeCommand());
+$app -> add(new NewsCommand());
 
 $app -> run();

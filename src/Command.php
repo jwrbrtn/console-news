@@ -4,6 +4,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Goutte\Client;
+
 
 /**
  * Author: Chidume Nnamdi <kurtwanger40@gmail.com>
@@ -50,4 +52,63 @@ class Command extends SymfonyCommand
             return "Good night";
         }        
     }
+
+
+    protected function readNews(InputInterface $input, OutputInterface $output)
+    {
+        // outputs multiple lines to the console (adding "\n" at the end of each line)
+        $output -> writeln([
+            '====**** News Reader Console App ****====',
+            '==========================================',
+            '==========================================',
+            '====****  Jessica Warburton 2019 ****====',
+            '==========================================',
+            '==========================================',
+
+            '',
+        ]);
+
+        
+        // outputs a message without adding a "\n" at the end of the line
+        
+        $source = $input -> getArgument('source'); 
+
+
+        
+
+        // outputs a message without adding a "\n" at the end of the line
+        //$output -> write($this -> getNews($source));
+
+        $client = new Client();
+
+        switch ($source) {
+            case 'hn':
+            print "Latest from Hacker News" . "\n";
+            print "\n";
+            $crawler = $client->request('GET', 'https://news.ycombinator.com/');
+            // Get the latest post in this category and display the titles
+            $crawler->filter('a.storylink')->each(function ($node) {
+                $text = $node->text();
+                $url = $node->attr('href');
+                $output->writeln('<href=' . $url . '>Symfony Homepage</>');
+                print $url;
+                print "\n";
+            });
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+
+
+
+    }
+
+
+
+
+
+
 }

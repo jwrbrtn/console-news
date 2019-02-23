@@ -8,19 +8,19 @@ use Console\Command;
 /**
  * Author: Chidume Nnamdi <kurtwanger40@gmail.com>
  */
-class TimeCommand extends Command
+class NewsCommand extends Command
 {
     
     public function configure()
     {
-        $this -> setName('greet')
-            -> setDescription('Greet a user based on the time of the day.')
-            -> setHelp('This command allows you to greet a user based on the time of the day...')
-            -> addArgument('username', InputArgument::REQUIRED, 'The username of the user.');
+        $this -> setName('news')
+            -> setDescription('Read the news in your terminal :)')
+            -> setHelp('This command allows you to retrieve news from a number of sources.')
+            -> addArgument('source', InputArgument::REQUIRED, 'The name of a news source.');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this -> greetUser($input, $output);
+        $this -> readNews($input, $output);
     }
 }
