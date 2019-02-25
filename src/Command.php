@@ -73,6 +73,17 @@ class Command extends SymfonyCommand
         // outputs a message without adding a "\n" at the end of the line
         //$output -> write($this -> getNews($source));
 
+        /*
+            Hacker News
+            The Age
+            Australian Broadcasting Corporation
+            The Conversation 
+            Pink News
+            New York Times
+            CNN
+
+        */
+
         $client = new Client();
 
         switch ($source) {
@@ -81,28 +92,150 @@ class Command extends SymfonyCommand
             print "\n";
             $crawler = $client->request('GET', 'https://news.ycombinator.com/');
             // Get the latest post in this category and display the titles
-            $crawler->filter('a.storylink')->each(function ($node) {
+            $crawler->filter('a.storylink')->each(function ($node, $x = 1) {
                 $text = $node->text();
                 $url = $node->attr('href');
-                print $text . "\n";
+                print $x . '.' . $text . "\n";
                 print $url . "\n";
                 print "\n";
+                $x++;
             });
                 break;
 
-                case 'abc':
+                case 'theage':
                 print "Latest from Australian Broadcating Company" . "\n";
                 print "\n";
-                $crawler = $client->request('GET', 'https://www.abc.net.au/news/feed/51120/rss.xml');
+                $crawler = $client->request('GET', 'https://www.theage.com.au/rss/feed.xml');
                 // Get the latest post in this category and display the titles
-                $crawler->filter('item')->each(function ($node) {
-                    $text = $node->text();
-                    $url = $node->attr('href');
-                    print $text . "\n";
+                $crawler->filter('item')->each(function ($node, $x = 1) {
+                    $title = $node->filter('title');
+                    $text = $title->text();
+                    $link = $node->filter('link');
+                    $url = $link->text();
+
+                    $ptext = str_replace(' ','$',$text); 
+                    print $x . '.' . $text . "\n";
                     print $url . "\n";
                     print "\n";
+                    $x++;
                 });
                     break;
+                    case 'abc':
+                    print "Latest from Australian Broadcating Company" . "\n";
+                    print "\n";
+                    $crawler = $client->request('GET', 'https://www.abc.net.au/news/feed/51120/rss.xml');
+                    // Get the latest post in this category and display the titles
+                    $crawler->filter('channel item')->each(function ($node, $x = 1) {
+                        $title = $node->filter('title');
+                        $text = $title->text();
+                        $link = $node->filter('link');
+                        $url = $link->text();
+
+                        $ptext = str_replace(' ','$',$text); 
+                        print $x . '.' . $text . "\n";
+                        print $url . "\n";
+                        print "\n";
+                        $x++;
+                    });
+                        break;
+
+                        case 'nyt':
+                        print "The latest from The New York Times" . "\n";
+                        print "\n";
+                        $crawler = $client->request('GET', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
+                        // Get the latest post in this category and display the titles
+                        $crawler->filter('item')->each(function ($node, $x = 1) {
+                            $title = $node->filter('title');
+                            $text = $title->text();
+                            $link = $node->filter('link');
+                            $url = $link->text();
+        
+                            $ptext = str_replace(' ','$',$text); 
+                            print $x . '.' . $text . "\n";
+                            print $url . "\n";
+                            print "\n";
+                            $x++;
+                        });
+                        break;
+
+                        case 'theconversation':
+                        print "Latest from The Conversation" . "\n";
+                        print "https://www.theconversation.com.au" . "\n";
+                        print "\n";
+                        $crawler = $client->request('GET', 'https://theconversation.com/au/articles.atom');
+                        // Get the latest post in this category and display the titles
+                        $crawler->filter('item')->each(function ($node, $x = 1) {
+                            $title = $node->filter('title');
+                            $text = $title->text();
+                            $link = $node->filter('link');
+                            $url = $link->text();
+        
+                            $ptext = str_replace(' ','$',$text); 
+                            print $x . '.' . $text . "\n";
+                            print $url . "\n";
+                            print "\n";
+                            $x++;
+                        });
+                        break;
+
+                        case 'pinknews':
+                        print "Latest from Pink News" . "\n";
+                        print "\n";
+                        $crawler = $client->request('GET', 'https://www.pinknews.co.uk/feed/');
+                        // Get the latest post in this category and display the titles
+                        $crawler->filter('item')->each(function ($node, $x = 1) {
+                            $title = $node->filter('title');
+                            $text = $title->text();
+                            $link = $node->filter('link');
+                            $url = $link->text();
+        
+                            $ptext = str_replace(' ','$',$text); 
+                            print $x . '.' . $text . "\n";
+                            print $url . "\n";
+                            print "\n";
+                            $x++;
+                        });
+                        break;
+
+                        case 'cnn':
+                        print "Latest from CNN" . "\n";
+                        print "\n";
+                        $crawler = $client->request('GET', 'http://rss.cnn.com/rss/edition.rss');
+                        // Get the latest post in this category and display the titles
+                        $crawler->filter('item')->each(function ($node, $x = 1) {
+                            $title = $node->filter('title');
+                            $text = $title->text();
+                            $link = $node->filter('link');
+                            $url = $link->text();
+        
+                            $ptext = str_replace(' ','$',$text); 
+                            print $x . '.' . $text . "\n";
+                            print $url . "\n";
+                            print "\n";
+                            $x++;
+                        });
+                        break;
+
+                        case 'arstechnica':
+                        print "Latest from Ars Technica" . "\n";
+                        print "\n";
+                        $crawler = $client->request('GET', 'http://feeds.arstechnica.com/arstechnica/index');
+                        // Get the latest post in this category and display the titles
+                        $crawler->filter('item')->each(function ($node, $x = 1) {
+                            $title = $node->filter('title');
+                            $text = $title->text();
+                            $link = $node->filter('link');
+                            $url = $link->text();
+        
+                            $ptext = str_replace(' ','$',$text); 
+                            print $x . '.' . $text . "\n";
+                            print $url . "\n";
+                            print "\n";
+                            $x++;
+                        });
+                        break;
+
+
             
             default:
                 # code...
