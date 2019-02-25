@@ -59,12 +59,6 @@ class Command extends SymfonyCommand
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output -> writeln([
             '====**** News Reader Console App ****====',
-            '==========================================',
-            '==========================================',
-            '====****  Jessica Warburton 2019 ****====',
-            '==========================================',
-            '==========================================',
-
             '',
         ]);
 
@@ -90,17 +84,30 @@ class Command extends SymfonyCommand
             $crawler->filter('a.storylink')->each(function ($node) {
                 $text = $node->text();
                 $url = $node->attr('href');
-                $output->writeln('<href=' . $url . '>Symfony Homepage</>');
-                print $url;
+                print $text . "\n";
+                print $url . "\n";
                 print "\n";
             });
                 break;
+
+                case 'abc':
+                print "Latest from Australian Broadcating Company" . "\n";
+                print "\n";
+                $crawler = $client->request('GET', 'https://www.abc.net.au/news/feed/51120/rss.xml');
+                // Get the latest post in this category and display the titles
+                $crawler->filter('item')->each(function ($node) {
+                    $text = $node->text();
+                    $url = $node->attr('href');
+                    print $text . "\n";
+                    print $url . "\n";
+                    print "\n";
+                });
+                    break;
             
             default:
                 # code...
                 break;
         }
-
 
 
 
