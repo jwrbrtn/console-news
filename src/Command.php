@@ -54,6 +54,8 @@ class Command extends SymfonyCommand
     }
 
 
+
+
     protected function readNews(InputInterface $input, OutputInterface $output)
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
@@ -84,7 +86,6 @@ class Command extends SymfonyCommand
 
         */
 
-        $client = new Client();
 
         switch ($source) {
             case 'hn':
@@ -103,41 +104,19 @@ class Command extends SymfonyCommand
                 break;
 
                 case 'theage':
-                print "Latest from Australian Broadcating Company" . "\n";
-                print "\n";
-                $crawler = $client->request('GET', 'https://www.theage.com.au/rss/feed.xml');
-                // Get the latest post in this category and display the titles
-                $crawler->filter('item')->each(function ($node, $x = 1) {
-                    $title = $node->filter('title');
-                    $text = $title->text();
-                    $link = $node->filter('link');
-                    $url = $link->text();
+                $feedurl = 'https://www.theage.com.au/rss/feed.xml';
+                $name = 'The Age';
+                $this->fetchFeed($feedurl, $name);
+                break;
 
-                    $ptext = str_replace(' ','$',$text); 
-                    print $x . '.' . $text . "\n";
-                    print $url . "\n";
-                    print "\n";
-                    $x++;
-                });
-                    break;
-                    case 'abc':
-                    print "Latest from Australian Broadcating Company" . "\n";
-                    print "\n";
-                    $crawler = $client->request('GET', 'https://www.abc.net.au/news/feed/51120/rss.xml');
-                    // Get the latest post in this category and display the titles
-                    $crawler->filter('channel item')->each(function ($node, $x = 1) {
-                        $title = $node->filter('title');
-                        $text = $title->text();
-                        $link = $node->filter('link');
-                        $url = $link->text();
+                case 'nyt':
+                $feedurl = 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml';
+                $name = 'The New York Times';
+                $this->fetchFeed($feedurl, $name);
+                break;
 
-                        $ptext = str_replace(' ','$',$text); 
-                        print $x . '.' . $text . "\n";
-                        print $url . "\n";
-                        print "\n";
-                        $x++;
-                    });
-                        break;
+
+
 
                         case 'nyt':
                         print "The latest from The New York Times" . "\n";
@@ -247,7 +226,23 @@ class Command extends SymfonyCommand
     }
 
 
-
+public function fetchFeed($feedurl, $name) {
+    $client = new Client();
+    $crawler = $client->request('GET', $feedurl);
+    // Print the name of the news source
+    print "Latest from " . $name . "\n";
+    // Iterate over the returned nodes and print them
+    $crawler->filter('item')->each(function ($node, $x = 1) {
+        $title = $node->filter('title');
+        $text = $title->text();
+        $link = $node->filter('link');
+        $url = $link->text();
+        print $x . '.' . $text . "\n";
+        print $url . "\n";
+        print "\n";
+        $x++;
+    });
+}
 
 
 
