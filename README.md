@@ -1,4 +1,4 @@
-# A PHP command-line application built using Symfony and Symfony/Console
+# A PHP command-line RSS news reader built using Symfony and Symfony/Console
 
 This is a User Greetings console app built using PHP and Symfony/Console.
 
