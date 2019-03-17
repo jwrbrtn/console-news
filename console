@@ -14,5 +14,5 @@ use Console\NewsCommand;
 $app = new Application('Console App', 'v1.0.0');
 
 $app -> add(new NewsCommand());
-
+$app->setDefaultCommand('news', true); // Single command application
 $app -> run();

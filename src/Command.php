@@ -60,21 +60,14 @@ class Command extends SymfonyCommand
     {
         // outputs multiple lines to the console (adding "\n" at the end of each line)
         $output -> writeln([
-            '====**** News Reader Console App ****====',
+            '<fg=black;bg=cyan>====**** News Reader Console App ****====</>',
             '',
         ]);
-
         
         // outputs a message without adding a "\n" at the end of the line
         
         $source = $input -> getArgument('source'); 
-
-
-        
-
-        // outputs a message without adding a "\n" at the end of the line
-        //$output -> write($this -> getNews($source));
-
+    
         /*
             Hacker News
             The Age
@@ -88,136 +81,58 @@ class Command extends SymfonyCommand
 
 
         switch ($source) {
-            case 'hn':
-            print "Latest from Hacker News" . "\n";
-            print "\n";
-            $crawler = $client->request('GET', 'https://news.ycombinator.com/');
-            // Get the latest post in this category and display the titles
-            $crawler->filter('a.storylink')->each(function ($node, $x = 1) {
-                $text = $node->text();
-                $url = $node->attr('href');
-                print $x . '.' . $text . "\n";
-                print $url . "\n";
-                print "\n";
-                $x++;
-            });
-                break;
 
-                case 'theage':
-                $feedurl = 'https://www.theage.com.au/rss/feed.xml';
-                $name = 'The Age';
-                $this->fetchFeed($feedurl, $name);
-                break;
+            // Australian News 
+            case 'abc':
+            $feedurl = 'https://www.abc.net.au/news/feed/51120/rss.xml';
+            $name = 'Australian Broadcasting Corporation';
+            $this->fetchFeed($feedurl, $name);
+            break;
 
-                case 'nyt':
-                $feedurl = 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml';
-                $name = 'The New York Times';
-                $this->fetchFeed($feedurl, $name);
-                break;
+            case 'theage':
+            $feedurl = 'https://www.theage.com.au/rss/feed.xml';
+            $name = 'The Age';
+            $this->fetchFeed($feedurl, $name);
+            break;
 
+            case 'theguardian':
+            $feedurl = 'https://www.theguardian.com/au/rss';
+            $name = 'The Guardian';
+            $this->fetchFeed($feedurl, $name);
+            break;
+
+            case 'theconversation':
+            $feedurl = 'https://theconversation.com/au/articles.atom';
+            $name = 'Ars Technica';
+            $this->fetchFeed($feedurl, $name);
+            break;
 
 
-
-                        case 'nyt':
-                        print "The latest from The New York Times" . "\n";
-                        print "\n";
-                        $crawler = $client->request('GET', 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml');
-                        // Get the latest post in this category and display the titles
-                        $crawler->filter('item')->each(function ($node, $x = 1) {
-                            $title = $node->filter('title');
-                            $text = $title->text();
-                            $link = $node->filter('link');
-                            $url = $link->text();
-        
-                            $ptext = str_replace(' ','$',$text); 
-                            print $x . '.' . $text . "\n";
-                            print $url . "\n";
-                            print "\n";
-                            $x++;
-                        });
-                        break;
-
-                        case 'theconversation':
-                        print "Latest from The Conversation" . "\n";
-                        print "https://www.theconversation.com.au" . "\n";
-                        print "\n";
-                        $crawler = $client->request('GET', 'https://theconversation.com/au/articles.atom');
-                        // Get the latest post in this category and display the titles
-                        $crawler->filter('item')->each(function ($node, $x = 1) {
-                            $title = $node->filter('title');
-                            $text = $title->text();
-                            $link = $node->filter('link');
-                            $url = $link->text();
-        
-                            $ptext = str_replace(' ','$',$text); 
-                            print $x . '.' . $text . "\n";
-                            print $url . "\n";
-                            print "\n";
-                            $x++;
-                        });
-                        break;
-
-                        case 'pinknews':
-                        print "Latest from Pink News" . "\n";
-                        print "\n";
-                        $crawler = $client->request('GET', 'https://www.pinknews.co.uk/feed/');
-                        // Get the latest post in this category and display the titles
-                        $crawler->filter('item')->each(function ($node, $x = 1) {
-                            $title = $node->filter('title');
-                            $text = $title->text();
-                            $link = $node->filter('link');
-                            $url = $link->text();
-        
-                            $ptext = str_replace(' ','$',$text); 
-                            print $x . '.' . $text . "\n";
-                            print $url . "\n";
-                            print "\n";
-                            $x++;
-                        });
-                        break;
-
-                        case 'cnn':
-                        print "Latest from CNN" . "\n";
-                        print "\n";
-                        $crawler = $client->request('GET', 'http://rss.cnn.com/rss/edition.rss');
-                        // Get the latest post in this category and display the titles
-                        $crawler->filter('item')->each(function ($node, $x = 1) {
-                            $title = $node->filter('title');
-                            $text = $title->text();
-                            $link = $node->filter('link');
-                            $url = $link->text();
-        
-                            $ptext = str_replace(' ','$',$text); 
-                            print $x . '.' . $text . "\n";
-                            print $url . "\n";
-                            print "\n";
-                            $x++;
-                        });
-                        break;
-
-                        case 'arstechnica':
-                        print "Latest from Ars Technica" . "\n";
-                        print "\n";
-                        $crawler = $client->request('GET', 'http://feeds.arstechnica.com/arstechnica/index');
-                        // Get the latest post in this category and display the titles
-                        $crawler->filter('item')->each(function ($node, $x = 1) {
-                            $title = $node->filter('title');
-                            $text = $title->text();
-                            $link = $node->filter('link');
-                            $url = $link->text();
-        
-                            $ptext = str_replace(' ','$',$text); 
-                            print $x . '.' . $text . "\n";
-                            print $url . "\n";
-                            print "\n";
-                            $x++;
-                        });
-                        break;
-
-
+            case 'nyt':
+            $feedurl = 'http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml';
+            $name = 'The New York Times';
+            $this->fetchFeed($feedurl, $name);
+            break;
             
+            // Technology News
+
+            case 'arstechnica':
+            $feedurl = 'http://feeds.arstechnica.com/arstechnica/index';
+            $name = 'Ars Technica';
+            $this->fetchFeed($feedurl, $name);
+            break;
+            
+            case 'hn':
+            $feedurl = 'https://news.ycombinator.com/rss';
+            $name = 'Ars Technica';
+            $this->fetchFeed($feedurl, $name);
+            break;
+
+
+
+
             default:
-                # code...
+                $output ->writeln("I don't know what you are talking about." . "\n");
                 break;
         }
 
@@ -226,21 +141,22 @@ class Command extends SymfonyCommand
     }
 
 
-public function fetchFeed($feedurl, $name) {
+protected function fetchFeed($feedurl, $name) {
     $client = new Client();
     $crawler = $client->request('GET', $feedurl);
     // Print the name of the news source
     print "Latest from " . $name . "\n";
     // Iterate over the returned nodes and print them
-    $crawler->filter('item')->each(function ($node, $x = 1) {
+    $crawler->filter('item')->each(function ($node, $x = 0) {
         $title = $node->filter('title');
         $text = $title->text();
         $link = $node->filter('link');
         $url = $link->text();
-        print $x . '.' . $text . "\n";
+        $x++;
+
+        print $x . ': ' . $text . "\n";
         print $url . "\n";
         print "\n";
-        $x++;
     });
 }
 

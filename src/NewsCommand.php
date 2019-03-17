@@ -17,7 +17,7 @@ class NewsCommand extends Command
             -> setDescription('Read the news in your terminal :)')
             -> setHelp('This command allows you to retrieve news from a number of sources.')
             -> addArgument('source', InputArgument::REQUIRED, 'The name of a news source.');
-    }
+        }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
